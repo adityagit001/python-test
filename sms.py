@@ -1,21 +1,40 @@
+import streamlit as st
 from twilio.rest import Client
+from dotenv import load_dotenv
 import os
 
-# Step 1: Load from environment variables
-account_sid = os.environ['TWILIO_ACCOUNT_SID']
-auth_token = os.environ['TWILIO_AUTH_TOKEN']
+# Load environment variables
+load_dotenv()
 
-# Step 2: Set your Twilio number and recipient number
-twilio_number = '+19066282681'
-recipient_number = '+917691033608'
+# Get credentials and numbers from .env
+account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+twilio_number = os.getenv('TWILIO_FROM_NUMBER')
+default_recipient = os.getenv('TWILIO_TO_NUMBER')
 
-# Step 3: Create the client and send SMS
-client = Client(account_sid, auth_token)
+# App UI
+st.set_page_config(page_title="📱 Twilio SMS Sender", page_icon="📩")
+st.title("📩 Send SMS with Twilio")
+st.write("Send a message using Python and Twilio")
 
-message = client.messages.create(
-    body='This is a new message from Python!',
-    from_=twilio_number,
-    to=recipient_number
-)
+# Input fields
+recipient = st.text_input("Recipient Phone Number", value=default_recipient or "")
+message_body = st.text_area("Your Message", height=100)
 
-print(f"✅ Message sent with SID: {message.sid}")
+# Send button
+if st.button("Send SMS"):
+    if not all([account_sid, auth_token, twilio_number]):
+        st.error("❌ Missing Twilio credentials in .env file.")
+    elif not recipient or not message_body.strip():
+        st.warning("⚠️ Please fill all fields.")
+    else:
+        try:
+            client = Client(account_sid, auth_token)
+            message = client.messages.create(
+                body=message_body,
+                from_=twilio_number,
+                to=recipient
+            )
+            st.success(f"✅ Message sent successfully! SID: {message.sid}")
+        except Exception as e:
+            st.error(f"❌ Failed to send message: {str(e)}")
