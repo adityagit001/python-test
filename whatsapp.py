@@ -4,7 +4,7 @@ import datetime
 
 st.set_page_config(page_title="WhatsApp Message Sender", page_icon="💬")
 
-st.title("📱 WhatsApp Message Scheduler using Python")
+st.title(" WhatsApp Message Scheduler using Python")
 
 # Input fields
 phone_number = st.text_input("Enter Phone Number (with country code)", value="+91")

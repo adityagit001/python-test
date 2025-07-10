@@ -10,7 +10,7 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
 
 st.set_page_config(page_title="📧 Send Email App", layout="centered")
-st.title("📤 Send Email with Python")
+st.title(" Send Email with Python")
 
 # Form for email subject and message
 with st.form("email_form"):
@@ -32,6 +32,6 @@ with st.form("email_form"):
                     smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
                     smtp.sendmail(EMAIL_ADDRESS, RECEIVER_EMAIL, message)
 
-                st.success(f"✅ Email sent to {RECEIVER_EMAIL} successfully!")
+                st.success(f" Email sent to {RECEIVER_EMAIL} successfully!")
             except Exception as e:
-                st.error(f"❌ Failed to send email: {e}")
+                st.error(f" Failed to send email: {e}")
