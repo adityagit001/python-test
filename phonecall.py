@@ -11,7 +11,7 @@ account_sid = os.getenv("TWILIO_ACCOUNT_SID")
 auth_token = os.getenv("TWILIO_AUTH_TOKEN")
 
 # Twilio number (fixed)
-from_number = "+19066282681"
+from_number = os.getenv("TWILIO_FROM_NUMBER")
 
 # Streamlit UI
 st.set_page_config(page_title="📞 Twilio Voice Caller", page_icon="📱")
